@@ -1,8 +1,25 @@
 require 'pry'
 class Randomizer
-  def initialize
-    res = [sg1, spinoffs(5), spinoffs(2)].sample
-    puts "#{res[0]} Season #{res[1]}, Episode #{res[2]}"
+  def initialize(show: nil)
+    if !show.nil?
+      res = nil
+      show = show.downcase
+
+      case
+      when show.start_with?('s')
+        res = sg1
+      when show.start_with?('a')
+        res = spinoffs(5)
+      when show.start_with?('u')
+        res = spinoffs(2)
+      else
+        res = ['Something wrong',nil,nil]
+      end
+      puts "#{res[0]} Season #{res[1]}, Episode #{res[2]}"
+    else
+      res = [sg1, spinoffs(5), spinoffs(2)].sample
+      puts "#{res[0]} Season #{res[1]}, Episode #{res[2]}"
+    end
   end
 
   def sg1
@@ -23,7 +40,13 @@ class Randomizer
   end
 end
 
-cnt = ARGV[0]&.to_i || 1
-cnt.times do
-  Randomizer.new
+shows = ['SG1', 'Atlantis', 'Universe']
+
+if (!ARGV.nil? && !ARGV.empty?) && shows.include?(ARGV[0])
+  Randomizer.new show: ARGV[0]
+else
+  cnt = ARGV[0]&.to_i || 1
+  cnt.times do
+    Randomizer.new
+  end
 end
