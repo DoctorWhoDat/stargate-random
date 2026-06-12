@@ -23,4 +23,7 @@ class Randomizer
   end
 end
 
-Randomizer.new
+cnt = ARGV[0]&.to_i || 1
+cnt.times do
+  Randomizer.new
+end
